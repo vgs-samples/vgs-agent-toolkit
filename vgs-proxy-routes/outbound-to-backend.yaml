@@ -1,0 +1,48 @@
+data:
+  - attributes:
+      created_at: '2025-05-14T22:55:13'
+      destination_override_endpoint: '*'
+      entries:
+        - classifiers: {}
+          config:
+            condition: AND
+            rules:
+              - expression:
+                  field: PathInfo
+                  operator: matches
+                  type: string
+                  values:
+                    - /post
+              - expression:
+                  field: ContentType
+                  operator: equals
+                  type: string
+                  values:
+                    - application/json
+          id: 677d4a29-8f3b-4a4e-ae1e-ca1cdc2a6efa
+          id_selector: null
+          operation: ENRICH
+          operations: null
+          phase: REQUEST
+          public_token_generator: UUID
+          targets:
+            - body
+          token_manager: PERSISTENT
+          transformer: JSON_PATH
+          transformer_config:
+            - $.account_number
+          transformer_config_map: null
+          type: null
+      host_endpoint: your-ngrok-url.ngrok.app
+      id: 92718185-ee4d-4fbf-8b8d-85ff02ce87a5
+      ordinal: null
+      port: 80
+      protocol: http
+      source_endpoint: '*'
+      tags:
+        name: vgs-ai-demo
+        source: RouteContainer
+      updated_at: '2025-05-14T22:55:13'
+    id: 92718185-ee4d-4fbf-8b8d-85ff02ce87a5
+    type: rule_chain
+version: 1

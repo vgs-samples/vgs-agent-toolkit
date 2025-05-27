@@ -1,0 +1,18 @@
+data:
+  - attributes:
+      created_at: '2025-05-14T22:58:54'
+      destination_override_endpoint: '*'
+      entries: []
+      host_endpoint: js.stripe.com
+      id: 17c271b0-2117-4f4d-9734-ddf06219784f
+      ordinal: null
+      port: 80
+      protocol: http
+      source_endpoint: '*'
+      tags:
+        name: shamrock-js
+        source: RouteContainer
+      updated_at: '2025-05-14T23:01:39'
+    id: 17c271b0-2117-4f4d-9734-ddf06219784f
+    type: rule_chain
+version: 1

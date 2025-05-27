@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "vgs-ai-demo": {
+      "transport": "stdio",
+      "command": "docker compose -f /Users/marshall/code/vgs/vgs-ai-demo/docker-compose.yaml run -T mcp-server",
+      "env": {
+        "HTTPS_PROXY_USERNAME": "US9R2M2Bf9QJv47hziu4G3GS",
+        "HTTPS_PROXY_PASSWORD": "a2accde2-940e-4a09-bb59-edbe6ce08321",
+        "TENANT_ID": "tntonm7yolo",
+        "SANDBOX_URL": "sandbox.verygoodproxy.com",
+        "PROXY_PORT": "8080",
+        "TLS_PROXY_PORT": "8443"
+      }
+    }
+  }
+}

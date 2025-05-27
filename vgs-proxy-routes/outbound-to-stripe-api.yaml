@@ -1,0 +1,60 @@
+data:
+  - attributes:
+      created_at: '2025-05-14T23:20:34'
+      destination_override_endpoint: '*'
+      entries:
+        - classifiers: {}
+          config:
+            condition: AND
+            rules:
+              - expression:
+                  field: PathInfo
+                  operator: begins_with
+                  type: string
+                  values:
+                    - /v1/payment_intents/
+          id: 8678dcaf-9647-49ef-a124-f24bf670d5b6
+          id_selector: null
+          operation: ENRICH
+          operations:
+            - name: github.com/verygoodsecurity/common/compute/larky/http/Process
+              parameters:
+                script: |-
+                  load("@stdlib//builtins", builtins="builtins")
+                  load("@stdlib//json", json="json")
+                  load("@vgs//vault", "vault")
+                  load("@stdlib//urllib/parse", parse="parse")
+
+
+                  def process(input, ctx):
+                      query = input.body
+                      qs = dict(parse.parse_qsl(query))
+                      card_token = qs[b'payment_method_data[card][number]'].replace(b" ", b"")
+                      pan = vault.reveal(card_token.decode("utf-8"))
+                      
+                      qs[b'payment_method_data[card][number]'] = pan
+                      input.body = parse.urlencode(qs)
+                      return input
+          phase: REQUEST
+          public_token_generator: UUID
+          targets:
+            - body
+          token_manager: PERSISTENT
+          transformer: FORM_FIELD
+          transformer_config:
+            - 'payment_method_data[card][number]'
+          transformer_config_map: null
+          type: null
+      host_endpoint: api.stripe.com
+      id: 6e4192bf-832b-4a59-bd01-c7fe53b0689c
+      ordinal: null
+      port: 80
+      protocol: http
+      source_endpoint: '*'
+      tags:
+        name: shamrock-api
+        source: RouteContainer
+      updated_at: '2025-05-16T15:55:15'
+    id: 6e4192bf-832b-4a59-bd01-c7fe53b0689c
+    type: rule_chain
+version: 1

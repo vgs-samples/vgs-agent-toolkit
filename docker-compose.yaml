@@ -1,0 +1,89 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "11337:11337"
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=app
+      - FLASK_DEBUG=1
+      - PYTHONPATH=/app
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8999:80"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - backend
+    env_file:
+      - .env
+    volumes:
+      - ./frontend:/app
+
+  mcp-server:
+    build:
+      context: ./mcp-server
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - backend
+    env_file:
+      - .env
+    volumes:
+      - ./mcp-server:/app
+    stdin_open: true
+    tty: true
+
+  postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=flask_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # openwebui:
+  #   image: ghcr.io/open-webui/open-webui:main
+  #   ports:
+  #     - "3000:8080"
+  #   volumes:
+  #     - open-webui:/app/backend/data
+
+  # pipelines:
+  #   image: ghcr.io/open-webui/pipelines:main
+  #   ports:
+  #     - "9099:9099"
+  #   environment:
+  #     - PIPELINES_URLS=https://github.com/open-webui/pipelines/blob/main/examples/filters/detoxify_filter_pipeline.py
+  #   volumes:
+  #     - pipelines:/app/pipelines
+  #   extra_hosts:
+  #     - "host.docker.internal:host-gateway"
+  #   restart: always
+
+  # ollama:
+  #   image: ollama/ollama
+  #   ports:
+  #     - "11434:11434"
+  #   volumes:
+  #     - ollama:/root/.ollama
+
+volumes:
+  open-webui:
+  postgres_data:
+  pipelines:
+  ollama:
