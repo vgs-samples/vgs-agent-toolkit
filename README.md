@@ -6,6 +6,10 @@ This project can be used to see how an [MCP](https://modelcontextprotocol.io/int
 
 Visit the [VGS proxy docs](https://www.verygoodsecurity.com/docs/vault/concepts/proxies-and-routing-data) to learn more about how routing data via VGS works. 
 
+# Pre-requisites
+
+For this demo we will use python, docker, node, [cursor](https://www.cursor.com/) and [VGS](https://www.verygoodsecurity.com/). We will assume that you have these setup for this demo.
+
 # Components
 
 This project is made up of several components:
@@ -119,11 +123,13 @@ The MCP server can be configured using a standard MCP configuration like this
 }
 ```
 
-Note here that we're providing dummy credentials which can be used for the purposes of this demo. You can generate your own credentials by going to the [VGS dashboard](https://dashboard.verygoodsecurity.com/) and generating a pair of access credentials. 
+_**Note:** here that we're providing dummy credentials which can be used for the purposes of this demo. You can generate your own credentials by going to the [VGS dashboard](https://dashboard.verygoodsecurity.com/) and generating a pair of access credentials._
 
 Additionally, the MCP server requires you to provide an absolute path when running from your filesystem. Assuming your username is not "marshall", you will need to replace this with the path of your repo. Use a command like `pwd` to figure out what this is. 
 
-_**Note**, you will need some tokenized values to run this demo, we've included the command we used. You will need to replace this with your credentials if you want to use your own vault but we've included some test credentials for convenience._
+This configuration can be placed in `.cursor/mcp.json` and you will need to check the cursor settings panel to verify that the MCP configuration is parsed correctly and the server is running before invoking the prompt.
+
+_**Note**: you will need some tokenized values to run this demo, we've included the command we used. You will need to replace this with your credentials if you want to use your own vault but we've included some test credentials for convenience._
 
 ```sh
 curl https://api.sandbox.verygoodvault.com/aliases \
