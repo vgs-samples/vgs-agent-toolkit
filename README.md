@@ -89,6 +89,13 @@ OK, we're configured, let's move on to testing the MCP server!
 
 The mcp-server module is the same implementation as the frontend module but exposed via an MCP server which allows an AI agent to invoke the methods. It exposes a single method called `submit-stripe-payment` which can be called from the agent by configuring the mcp server and then calling it using a prompt usch as "Submit a payment to Stripe". 
 
+
+### Building the MCP Server
+
+```sh
+pushd mcp-server && npm run build && popd && docker compose build mcp-server
+```
+
 ### Configuring the MCP Server
 
 The MCP server can be configured using a standard MCP configuration like this
