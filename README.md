@@ -4,7 +4,7 @@ The VGS Agent provides examples for how to use VGS with popular agent frameworks
 
 ## Examples
 
-- [examples/secure-data-mcp-example/](VGS Vault + Proxy MCP Server)
+- [VGS Vault + Proxy MCP Server](examples/secure-data-mcp-example/)
 
 ## Best Practices
 
