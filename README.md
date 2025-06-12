@@ -1,4 +1,4 @@
-# VGS Agent Toolkit
+# VGS Agent Toolkit 🧙🏼‍♀️🤖
 
 The VGS Agent provides examples for how to use VGS with popular agent frameworks, and Model Context Protocol (MCP) examples to integrate with VGS APIs through function calling.
 
