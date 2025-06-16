@@ -387,7 +387,7 @@ To autonomously create and verify an inbound route that redacts fields with pers
 3. **Test the Route**
    - Use curl to send a POST request to the proxy endpoint:
      ```sh
-     curl https://<vault_id>.sandbox.verygoodproxy.io/post -H "Content-type: application/json" -d '{"bar": "bar", "account_number": "foo"}'
+     curl https://<vault_id>.sandbox.verygoodproxy.com/post -H "Content-type: application/json" -d '{"bar": "bar", "account_number": "foo"}'
      ```
    - Replace `<vault_id>` with the actual vault ID.
 
