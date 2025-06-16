@@ -8,7 +8,7 @@ Visit the [VGS proxy docs](https://www.verygoodsecurity.com/docs/vault/concepts/
 
 # Pre-requisites
 
-For this demo we will use python, docker, node, [cursor](https://www.cursor.com/) and [VGS](https://www.verygoodsecurity.com/). We will assume that you have these setup for this demo.
+For this demo we will use python, docker, node, [cursor](https://www.cursor.com/) or [windsurf](https://www.windsurf.com/) and [VGS](https://www.verygoodsecurity.com/). We will assume that you have these setup for this demo.
 
 # Components
 
@@ -81,7 +81,11 @@ vgs apply routes --vault=$VGS_VAULT_ID -f vgs-proxy-routes/outbound-to-stripe-js
 vgs apply routes --vault=$VGS_VAULT_ID -f vgs-proxy-routes/outbound-to-backend.yaml
 ```
 
-OK, we're configured, let's move on to testing the MCP server!
+#### Configuring VGS Proxy via MCP
+
+```prompt
+delete all routes for vault tntonm7yolo and then apply the routes from @vgs-proxy-routes . for the outbound to backend route use the hostname vgs.ngrok.app
+```
 
 #### Configuring VGS Proxy via Dashboard
 
@@ -89,10 +93,12 @@ OK, we're configured, let's move on to testing the MCP server!
 2. Go to https://dashboard.verygoodsecurity.io and find your Vault
 3. On the Routes page, upload your routes.
 
+
+OK, we're configured, let's move on to testing the MCP server!
+
 ## MCP Server
 
-The mcp-server module is the same implementation as the frontend module but exposed via an MCP server which allows an AI agent to invoke the methods. It exposes a single method called `submit-stripe-payment` which can be called from the agent by configuring the mcp server and then calling it using a prompt usch as "Submit a payment to Stripe". 
-
+The mcp-server module is the same implementation as the frontend module but exposed via an MCP server which allows an AI agent to invoke the methods. It exposes a single method called `submit_stripe_payment` which can be called from the agent by configuring the mcp server and then calling it using a prompt usch as "Submit a payment to Stripe". 
 
 ### Building the MCP Server
 
@@ -109,7 +115,7 @@ The MCP server can be configured using a standard MCP configuration like this
   "mcpServers": {
     "vgs-ai-demo": {
       "transport": "stdio",
-      "command": "docker compose -f /Users/marshall/code/vgs/vgs-ai-demo/docker-compose.yaml run -T mcp-server",
+      "command": "docker compose -f /Users/marshall/code/vgs/vgs-ai-demo/examples/secure-data-mcp-example/docker-compose.yaml run -T mcp-server",
       "env": {
         "HTTPS_PROXY_USERNAME": "US9R2M2Bf9QJv47hziu4G3GS",
         "HTTPS_PROXY_PASSWORD": "a2accde2-940e-4a09-bb59-edbe6ce08321",
@@ -151,7 +157,7 @@ Once you have the aliased values returned, you're now ready to ask the agent to 
 
 Use a prompt like this
 
-> please submit the stripe payment using pan 4111110824521111 and cvv 193
+> please submit the stripe payment using pan 4111110824521111, cvv 193, expiration 10/26, name bob sagat, postal code 90210
 
 You should see the agent invoke the MCP server, which in turn will complete the Stripe form via the VGS proxy and then submit the successful payment to the backend.
 

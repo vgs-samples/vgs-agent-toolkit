@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "vgs-ai-demo": {
+    "agentic-mcp-demo-send-card-details": {
       "transport": "stdio",
       "command": "docker compose -f /Users/marshall/code/vgs/vgs-ai-demo/docker-compose.yaml run -T mcp-server",
       "env": {
