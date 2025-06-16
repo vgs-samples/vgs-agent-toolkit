@@ -25,22 +25,16 @@ class KeyCloak:
         return token["access_token"]
 
 
-def get_jwt_token(username=None, password=None):
+def get_jwt_token(url: str, realm: str):
     client_id = os.getenv("VGS_CLIENT_ID")
     client_secret = os.getenv("VGS_CLIENT_SECRET")
-    url = os.getenv("KEYCLOAK_URL")
-    realm = os.getenv("KEYCLOAK_REALM")
     log.debug(
         f"Initializing KeyCloak client for url: [{url}]; realm: [{realm}]; client_id: [{client_id}], {client_secret}"
     )
 
     keycloak = KeyCloak(url=url, realm=realm, client_id=client_id, secret=client_secret)
 
-    if username and password:
-        log.debug(f"Acquiring keycloak token for the user [{username}]")
-        jwt_token = keycloak.issue_token_for_user(username, password)
-    else:
-        log.debug(f"Acquiring keycloak token for the client [{client_id}]")
-        jwt_token = keycloak.issue_token_for_client()
+    log.debug(f"Acquiring keycloak token for the client [{client_id}]")
+    jwt_token = keycloak.issue_token_for_client()
 
     return jwt_token

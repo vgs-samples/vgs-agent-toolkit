@@ -1,18 +1,24 @@
 {
   "mcpServers": {
     "vaultmcp": {
-      "transport": "stdio",
-      "command": "uv run main.py",
+      "type": "stdio",
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/Users/marshall/code/vgs/vgs-ai-demo/mcp/vaultmcp",
+        "run",
+        "main.py"
+      ],
       "env": {
-        "VGS_CLIENT_ID": "ACoKRUTV7-config-ci-5I76w",
-        "VGS_CLIENT_SECRET": "9c7db2d9-5780-41b1-9575-9218398d7e08",
-        "KEYCLOAK_URL": "https://auth.verygoodsecurity.io/auth",
+        "VGS_CLIENT_ID": "some-client-id",
+        "VGS_CLIENT_SECRET": "some-client-secret",
+        "KEYCLOAK_URL": "https://auth.verygoodsecurity.com/auth",
         "KEYCLOAK_REALM": "vgs",
-        "VAULT_ID": "tntipby064g",
-        "VAULT_RUNTIME_USERNAME": "USiX4RQLroTvucZR6r7KmQqa",
-        "VAULT_RUNTIME_PASSWORD": "5f033935-c318-4a69-89cb-d90596e8d453",
+        "VGS_VAULT_ID": "tntipby064g",
+        "VGS_VAULT_RUNTIME_USERNAME": "USiX4RQLroTvucZR6r7KmQqa",
+        "VGS_VAULT_RUNTIME_PASSWORD": "5f033935-c318-4a69-89cb-d90596e8d453",
         "VGS_ORGANIZATION_ID": "ACoKRUTV7ETUsqWjMJGEWJZb"
       }
     }
   }
-} 
+}
