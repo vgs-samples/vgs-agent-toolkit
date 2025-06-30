@@ -32,6 +32,7 @@ jobs:
         run: npm ci
       - name: Build TypeScript
         run: npm run build
-      # Uncomment the following lines if you add a test script to package.json
-      # - name: Run tests
-      #   run: npm test 
+      - name: Run tests
+        run: npm test 
+      - name: Build MCP Server Container
+        run: docker compose build mcp-server

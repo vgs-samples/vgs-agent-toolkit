@@ -26,4 +26,6 @@ jobs:
       - name: Set PYTHONPATH
         run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
       - name: Run tests
-        run: pytest 
+        run: pytest
+      - name: Build MCP Server Container
+        run: docker compose build backend
