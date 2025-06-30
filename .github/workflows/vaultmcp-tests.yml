@@ -1,0 +1,30 @@
+name: VaultMCP Tests
+
+on:
+  push:
+    paths:
+      - 'mcp/vaultmcp/**'
+  pull_request:
+    paths:
+      - 'mcp/vaultmcp/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mcp/vaultmcp
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          pip install uv
+          uv venv
+          source .venv/bin/activate
+      - name: Run tests
+        run: uv run pytest 
