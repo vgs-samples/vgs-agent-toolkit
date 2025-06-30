@@ -15,4 +15,5 @@ export default {
       tsconfig: './tsconfig.json',
     },
   },
+  testPathIgnorePatterns: ['/node_modules/', '/dist/'],
 }; 
