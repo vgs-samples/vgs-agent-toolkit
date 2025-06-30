@@ -2,15 +2,17 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
-    "module": "esnext",
-    "target": "ESNext",
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "target": "ES2020",
+    "moduleResolution": "Node",
     "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "strict": true,
     "allowJs": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["node", "jest"]
   },
   "include": ["src/**/*"]
 }
