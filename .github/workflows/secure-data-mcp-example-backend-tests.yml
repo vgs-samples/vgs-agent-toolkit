@@ -1,0 +1,31 @@
+name: Secure Data MCP Example - Backend Tests
+
+on:
+  push:
+    paths:
+      - 'examples/secure-data-mcp-example/**'
+  pull_request:
+    paths:
+      - 'examples/secure-data-mcp-example/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: examples/secure-data-mcp-example/backend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Set PYTHONPATH
+        run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
+      - name: Run tests
+        run: pytest
+      - name: Build MCP Server Container
+        run: docker compose build backend

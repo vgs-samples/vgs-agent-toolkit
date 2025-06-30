@@ -2,24 +2,28 @@
   "name": "mcp-server",
   "version": "1.0.0",
   "type": "module",
-  "main": "dist/mcpServer.js",
+  "main": "dist/cli.js",
   "scripts": {
     "build": "tsc",
-    "start": "node --experimental-specifier-resolution=node dist/mcpServer.js",
-    "dev": "tsc -w"
+    "start": "node --experimental-specifier-resolution=node dist/cli.js",
+    "dev": "tsc -w",
+    "test": "jest"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.11.2",
+    "http-proxy-middleware": "^3.0.5",
     "puppeteer": "^21.0.0",
     "puppeteer-extra": "^3.3.6",
-    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "puppeteer-extra-plugin-recaptcha": "^3.6.8",
-    "http-proxy-middleware": "^3.0.5"
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
   },
   "devDependencies": {
     "@types/express": "^5.0.1",
+    "@types/jest": "^30.0.0",
     "@types/node": "^20.11.24",
     "@types/puppeteer": "^5.4.7",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
     "typescript": "^5.3.3"
   }
 }
