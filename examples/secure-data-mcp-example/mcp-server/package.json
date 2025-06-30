@@ -12,7 +12,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.11.2",
     "http-proxy-middleware": "^3.0.5",
-    "puppeteer": "^21.0.0",
+    "puppeteer": "^24.11.1",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-recaptcha": "^3.6.8",
     "puppeteer-extra-plugin-stealth": "^2.11.2"
