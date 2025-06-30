@@ -1,11 +1,9 @@
-
 import logging
 import os
 
-from keycloak.realm import KeycloakRealm
-
 import vgs.sdk.routes
 import vgs.sdk.vaults_api
+from keycloak.realm import KeycloakRealm
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger()
