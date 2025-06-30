@@ -1,8 +1,8 @@
 # server.py
 import json
 import logging
-from typing import Annotated
 import os
+from typing import Annotated
 
 import requests
 import vgs.sdk.vaults_api
@@ -46,7 +46,10 @@ environments = {
 
 
 def create_audits_api(vault_id, environment):
-    token = get_jwt_token(environments[environment]["keycloak_url"], environments[environment]["keycloak_realm"])
+    token = get_jwt_token(
+        environments[environment]["keycloak_url"],
+        environments[environment]["keycloak_realm"],
+    )
     logger.info("creating audits api")
     return create_audits_api_int(None, vault_id, environment, token)
 
@@ -56,7 +59,8 @@ def get_access_logs(
     vault_id: Annotated[
         str,
         Field(
-            description="ID of the Vault to get access logs for.", pattern="tnt[A-z0-9]+"
+            description="ID of the Vault to get access logs for.",
+            pattern="tnt[A-z0-9]+",
         ),
     ],
     tail: Annotated[
@@ -125,7 +129,10 @@ def create_route(
         ),
     ],
 ):
-    token = get_jwt_token(environments[environment]["keycloak_url"], environments[environment]["keycloak_realm"])
+    token = get_jwt_token(
+        environments[environment]["keycloak_url"],
+        environments[environment]["keycloak_realm"],
+    )
     if isinstance(payload, str):
         payload = json.loads(payload)
     vault_management_api = vgs.sdk.vaults_api.create_api(
@@ -159,7 +166,10 @@ def delete_route(
         ),
     ],
 ):
-    token = get_jwt_token(environments[environment]["keycloak_url"], environments[environment]["keycloak_realm"])
+    token = get_jwt_token(
+        environments[environment]["keycloak_url"],
+        environments[environment]["keycloak_realm"],
+    )
     vault_management_api = vgs.sdk.vaults_api.create_api(
         None, vault_id, environments[environment]["infra_env"], token
     )
@@ -190,7 +200,10 @@ def get_route(
         ),
     ],
 ):
-    token = get_jwt_token(environments[environment]["keycloak_url"], environments[environment]["keycloak_realm"])
+    token = get_jwt_token(
+        environments[environment]["keycloak_url"],
+        environments[environment]["keycloak_realm"],
+    )
     vault_management_api = vgs.sdk.vaults_api.create_api(
         None, vault_id, environments[environment]["infra_env"], token
     )
@@ -226,7 +239,10 @@ def update_route(
         ),
     ],
 ):
-    token = get_jwt_token(environments[environment]["keycloak_url"], environments[environment]["keycloak_realm"])
+    token = get_jwt_token(
+        environments[environment]["keycloak_url"],
+        environments[environment]["keycloak_realm"],
+    )
     vault_management_api = vgs.sdk.vaults_api.create_api(
         None, vault_id, environments[environment]["infra_env"], token
     )
@@ -250,7 +266,10 @@ def get_routes(
         ),
     ],
 ):
-    token = get_jwt_token(environments[environment]["keycloak_url"], environments[environment]["keycloak_realm"])
+    token = get_jwt_token(
+        environments[environment]["keycloak_url"],
+        environments[environment]["keycloak_realm"],
+    )
     vault_management_api = vgs.sdk.vaults_api.create_api(
         None, vault_id, environments[environment]["infra_env"], token
     )
@@ -262,7 +281,8 @@ def enable_debug_logs(
     vault_id: Annotated[
         str,
         Field(
-            description="ID of the Vault to enable debug logs for.", pattern="tnt[A-z0-9]+"
+            description="ID of the Vault to enable debug logs for.",
+            pattern="tnt[A-z0-9]+",
         ),
     ],
     environment: Annotated[
@@ -273,7 +293,10 @@ def enable_debug_logs(
         ),
     ],
 ):
-    token = get_jwt_token(environments[environment]["keycloak_url"], environments[environment]["keycloak_realm"])
+    token = get_jwt_token(
+        environments[environment]["keycloak_url"],
+        environments[environment]["keycloak_realm"],
+    )
     url = f"{environments[environment]['logs_url']}/log-settings"
     headers = {
         "accept": "application/vnd.api+json",
@@ -314,14 +337,17 @@ def get_access_log_details_by_request_id(
 ):
     """
     Get a specific access log by request ID.
-    This is useful for debugging a specific request. If debug logs are enabled then the payloads will be available in the response. 
+    This is useful for debugging a specific request. If debug logs are enabled then the payloads will be available in the response.
     Additionally you'll be able to see which routes and filters were matched and executed.
 
     Args:
         vault_id (str): The ID of the Vault to get access log for.
         request_id (str): The ID of the request to fetch logs for.
     """
-    token = get_jwt_token(environments[environment]["keycloak_url"], environments[environment]["keycloak_realm"])
+    token = get_jwt_token(
+        environments[environment]["keycloak_url"],
+        environments[environment]["keycloak_realm"],
+    )
     url = f"{environments[environment]['logs_url']}/logs?filter[logs][requestId]={request_id}"
     headers = {
         "accept": "application/vnd.api+json",
