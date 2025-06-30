@@ -1,4 +1,4 @@
-name: MCP Server Tests
+name: Secure Data MCP Example - MCP Server Tests
 
 on:
   push:
@@ -21,6 +21,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - name: Install dependencies
         run: npm ci
       - name: Build TypeScript
