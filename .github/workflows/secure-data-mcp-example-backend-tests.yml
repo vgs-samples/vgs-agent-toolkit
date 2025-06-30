@@ -3,10 +3,10 @@ name: Secure Data MCP Example - Backend Tests
 on:
   push:
     paths:
-      - 'examples/secure-data-mcp-example/backend/**'
+      - 'examples/secure-data-mcp-example/**'
   pull_request:
     paths:
-      - 'examples/secure-data-mcp-example/backend/**'
+      - 'examples/secure-data-mcp-example/**'
 
 jobs:
   test:

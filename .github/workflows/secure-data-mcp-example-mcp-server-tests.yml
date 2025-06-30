@@ -1,0 +1,30 @@
+name: MCP Server Tests
+
+on:
+  push:
+    paths:
+      - 'examples/secure-data-mcp-example/mcp-server/**'
+  pull_request:
+    paths:
+      - 'examples/secure-data-mcp-example/mcp-server/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: examples/secure-data-mcp-example/mcp-server
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm ci
+      - name: Build TypeScript
+        run: npm run build
+      # Uncomment the following lines if you add a test script to package.json
+      # - name: Run tests
+      #   run: npm test 
