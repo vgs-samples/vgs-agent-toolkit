@@ -1348,7 +1348,6 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "fastmcp", specifier = ">=2.7.0" },
-    { name = "pytest", specifier = ">=7.0.0" },
     { name = "python-keycloak-client", specifier = ">=0.2.3" },
     { name = "vgs-cli", specifier = ">=1.30.16" },
 ]
