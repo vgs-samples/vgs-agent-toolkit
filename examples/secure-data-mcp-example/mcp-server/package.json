@@ -20,7 +20,7 @@
   "devDependencies": {
     "@types/express": "^5.0.1",
     "@types/jest": "^30.0.0",
-    "@types/node": "^24.0.10",
+    "@types/node": "^24.0.15",
     "@types/puppeteer": "^5.4.7",
     "jest": "^30.0.4",
     "ts-jest": "^29.1.1",
