@@ -2,10 +2,10 @@
   "name": "mcp-server",
   "version": "1.0.0",
   "type": "module",
-  "main": "dist/cli.js",
+  "main": "dist/mcpServer.js",
   "scripts": {
     "build": "tsc",
-    "start": "node --experimental-specifier-resolution=node dist/cli.js",
+    "start": "node --experimental-specifier-resolution=node dist/mcpServer.js",
     "dev": "tsc -w",
     "test": "jest"
   },
