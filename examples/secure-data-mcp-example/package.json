@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "http-proxy-middleware": "^3.0.5",
-    "puppeteer": "^19.0.0",
+    "puppeteer": "^24.14.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-recaptcha": "^3.6.8",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
