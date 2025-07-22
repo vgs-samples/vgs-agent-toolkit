@@ -15,9 +15,11 @@ export async function solveRecaptcha(page) {
     return true;
 }
 export class StripeTester {
-    browser = null;
-    page = null;
-    paymentDetails = null;
+    constructor() {
+        this.browser = null;
+        this.page = null;
+        this.paymentDetails = null;
+    }
     async initialize(paymentDetails) {
         this.paymentDetails = paymentDetails;
         // Proxy setup matching frontend/config/config.js
