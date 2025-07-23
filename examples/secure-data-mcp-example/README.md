@@ -16,7 +16,7 @@ This project is made up of several components:
 
 ## Backend
 
-The backend is a mocked example of a merchant's website. It hosts an API endpoint, and a webpage that contains a Stripe collect form that can be submitted and will store the result of the payment in a database.
+The backend is a mocked example of a merchant's website. It hosts an API endpoint, and a webpage that contains a Stripe collect form that can be submitted and will store the result of the payment in a database. The backend can be considered a completely stand alone that is the receipient of card data. It does not need to know about the agent or VGS.
 
 We need to setup a `.env` file before we start, here's a sample one using some test values to get you started
 
@@ -63,7 +63,7 @@ ngrok http 11337 --url https://your-host.ngrok.app  # only pass --url if you hav
 
 ### Configuring VGS
 
-You will need to configure VGS to route traffic and rewrite the token going to Stripe. We can use the VGS CLI for this purpose, or you can copy the routes into the dashboard UI. 
+You will need to configure VGS to route traffic and rewrite the token going to Stripe iFrame on the merchant's website (hosted by the backend). We can use the VGS CLI for this purpose, or you can copy the routes into the dashboard UI. Puppeteer will route requests through the VGS proxy and pass tokens, allowing the MCP server and agent to be fully de-scoped from handling sensitive PCI data.
 
 _**Note**: You will need your Vault ID to make this work, please replace with your own vault._
 
@@ -84,7 +84,7 @@ vgs apply routes --vault=$VGS_VAULT_ID -f vgs-proxy-routes/outbound-to-backend.y
 #### Configuring VGS Proxy via MCP
 
 ```prompt
-delete all routes for vault tntonm7yolo and then apply the routes from @vgs-proxy-routes . for the outbound to backend route use the hostname vgs.ngrok.app
+delete all routes for vault tntonm7yolo and then apply the routes from @vgs-proxy-routes. for the outbound to backend route use the hostname vgs.ngrok.app
 ```
 
 #### Configuring VGS Proxy via Dashboard
@@ -92,7 +92,6 @@ delete all routes for vault tntonm7yolo and then apply the routes from @vgs-prox
 1. Replace the string "your-ngrok-url.ngrok" with your URL in the file vgs-proxy-routes/outbound-to-backend.js
 2. Go to https://dashboard.verygoodsecurity.io and find your Vault
 3. On the Routes page, upload your routes.
-
 
 OK, we're configured, let's move on to testing the MCP server!
 
@@ -115,7 +114,33 @@ The MCP server can be configured using a standard MCP configuration like this
   "mcpServers": {
     "vgs-ai-demo": {
       "transport": "stdio",
-      "command": "docker compose -f /Users/marshall/code/vgs/vgs-ai-demo/examples/secure-data-mcp-example/docker-compose.yaml run -T mcp-server",
+      "command": "docker compose -f /path/to/code/vgs-ai-demo/examples/secure-data-mcp-example/docker-compose.yaml run -T mcp-server",
+      "env": {
+        "HTTPS_PROXY_USERNAME": "US9R2M2Bf9QJv47hziu4G3GS",
+        "HTTPS_PROXY_PASSWORD": "a2accde2-940e-4a09-bb59-edbe6ce08321",
+        "TENANT_ID": "tntonm7yolo",
+        "SANDBOX_URL": "sandbox.verygoodproxy.com",
+        "PROXY_PORT": "8080",
+        "TLS_PROXY_PORT": "8443"
+      }
+    }
+  }
+}
+```
+
+If you don't want to run docker, you can run the node process directly. 
+
+```json
+{
+  "mcpServers": {
+    "vgs-ai-demo": {
+      "transport": "stdio",
+      "command": "npm",
+      "args": [
+        "start",
+        "--prefix",
+        "/path/to/code/vgs-agent-toolkit/examples/secure-data-mcp-example/mcp-server"
+      ],
       "env": {
         "HTTPS_PROXY_USERNAME": "US9R2M2Bf9QJv47hziu4G3GS",
         "HTTPS_PROXY_PASSWORD": "a2accde2-940e-4a09-bb59-edbe6ce08321",
