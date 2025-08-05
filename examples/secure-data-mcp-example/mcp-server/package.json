@@ -22,7 +22,7 @@
     "@types/jest": "^30.0.0",
     "@types/node": "^24.1.0",
     "@types/puppeteer": "^5.4.7",
-    "jest": "^30.0.4",
+    "jest": "^30.0.5",
     "ts-jest": "^29.4.1",
     "typescript": "^5.3.3"
   }
