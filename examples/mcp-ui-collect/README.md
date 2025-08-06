@@ -191,7 +191,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 ## Next Steps
 
-- [ ] Add form submission permissions to MCP UI
+- [ ] Add form submission permissions to MCP UI (See [idosal/mcp-ui#68](https://github.com/idosal/mcp-ui/issues/68) for details)
 - [ ] Implement payment processing with tokenized data
 - [ ] Add additional payment methods (ACH, SEPA, etc.)
 - [ ] Create reusable MCP UI components
