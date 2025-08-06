@@ -1,0 +1,16 @@
+[project]
+name = "mcpui"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastmcp>=2.11.2",
+    "uvicorn>=0.34.3",
+    "pdbpp",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+]
