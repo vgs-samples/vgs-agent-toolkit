@@ -1,6 +1,6 @@
 # VGS Agentic Card Collection Sample App
 
-This is a sample application demonstrating how to securely collect card data using VGS Collect in an agentic commerce system. The app follows the [VGS documentation](https://docs.verygoodsecurity.com/agentic-commerce/collect-card-data-from-user) for implementing PCI-compliant card collection.
+This is a sample application demonstrating how to securely collect card data using VGS Collect in an agentic commerce system. The app follows the [VGS documentation](https://docs.verygoodsecurity.com/agentic-commerce/) for implementing PCI-compliant card collection.
 
 ## Features
 

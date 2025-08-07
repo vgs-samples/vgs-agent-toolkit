@@ -56,9 +56,9 @@ Edit `.env` with your actual credentials:
 
 ```env
 # VGS Configuration
-VGS_VAULT_ID=tntonm7yolo
-VGS_USERNAME=your-vault-username
-VGS_PASSWORD=your-vault-password
+VGS_VAULT_ID=your-vgs-vault-id
+VGS_USERNAME=your-vgs-vault-username
+VGS_PASSWORD=your-vgs-vault-password
 VGS_ENVIRONMENT=sandbox
 
 # PSP Configuration

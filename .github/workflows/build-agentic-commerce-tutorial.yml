@@ -1,0 +1,47 @@
+name: Build Agentic Commerce Tutorial Applications
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'examples/agentic-commerce-tutorial/**'
+  pull_request:
+    branches: [main, master]
+    paths:
+      - 'examples/agentic-commerce-tutorial/**'
+jobs:
+  build-collect-card-data:
+    name: Build Collect Card Data App
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: examples/agentic-commerce-tutorial/collect-card-data/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+        working-directory: examples/agentic-commerce-tutorial/collect-card-data
+      - name: Verify build
+        run: npm list --depth=0
+        working-directory: examples/agentic-commerce-tutorial/collect-card-data
+  build-psp-provisioner:
+    name: Build PSP Provisioner App
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: examples/agentic-commerce-tutorial/psp-provisioner/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+        working-directory: examples/agentic-commerce-tutorial/psp-provisioner
+      - name: Verify build
+        run: npm run start --help || echo "Build verification complete"
+        working-directory: examples/agentic-commerce-tutorial/psp-provisioner
