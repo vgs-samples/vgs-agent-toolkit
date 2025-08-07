@@ -1,0 +1,139 @@
+// VGS Collect Form Implementation
+const VAULT_ID = "tntonm7yolo"; // replace with your Vault ID
+const ENVIRONMENT = "sandbox";
+
+// Initialize the form
+const form = VGSCollect.create(VAULT_ID, ENVIRONMENT, () => {
+    console.log("Form created successfully");
+});
+
+// CSS styling for form fields
+const css = {
+    "vertical-align": "middle",
+    "white-space": "normal",
+    "background": "none",
+    "font-family": "sofia, arial, sans-serif",
+    "font-size": "16px",
+    "color": "rgb(34, 25, 36)",
+    "line-height": "normal",
+    "padding": "8px 12px",
+    "box-sizing": "border-box",
+    "border": "1px solid #ced4da",
+    "border-radius": "4px",
+    "width": "100%",
+    "&::placeholder": {
+        "color": "#6A6A6A"
+    },
+    "&:focus": {
+        "border-color": "#80bdff",
+        "outline": "0",
+        "box-shadow": "0 0 0 0.2rem rgba(0,123,255,.25)"
+    }
+};
+
+// Create form fields
+form.cardholderNameField('#cardholder-name', {
+    placeholder: 'Jane Doe',
+    css: css
+});
+
+form.cardNumberField('#card-number', {
+    placeholder: '4111 1111 1111 1111',
+    css: css
+});
+
+form.cardExpirationDateField('#card-expiration', {
+    placeholder: 'MM / YY',
+    css: css
+});
+
+form.cardCVCField('#card-cvc', {
+    placeholder: '123',
+    css: css
+});
+
+// Handle form submission
+document.getElementById('submit-btn').addEventListener('click', async () => {
+    const submitBtn = document.getElementById('submit-btn');
+    const resultDiv = document.getElementById('result');
+    const errorDiv = document.getElementById('error');
+
+    // Hide previous results
+    resultDiv.style.display = 'none';
+    errorDiv.style.display = 'none';
+
+    // Disable button and show loading
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Processing...';
+
+    try {
+        // Get JWT token from backend
+        const res = await fetch('/get-collect-token');
+        if (!res.ok) {
+            throw new Error('Failed to get authentication token');
+        }
+
+        const {
+            access_token
+        } = await res.json();
+
+        // Create card using VGS Collect
+        const response = await form.createCard({
+                auth: access_token,
+                data: {
+                    "cardholder": {}
+                }
+            },
+            function(status, card_object) {
+                // Success callback
+                console.log("Card created successfully!");
+                console.log("Card ID: " + card_object.data.id);
+                console.log("PAN Alias: " + card_object.data.attributes.pan_alias);
+                console.log("CVC Alias: " + card_object.data.attributes.cvc_alias);
+                console.log('Card Object: ', card_object.data);
+
+                // Display success message
+                const cardDetails = document.getElementById('card-details');
+                cardDetails.innerHTML = `
+        <p><strong>Card ID:</strong> ${card_object.data.id}</p>
+        <p><strong>PAN Alias:</strong> ${card_object.data.attributes.pan_alias}</p>
+        <p><strong>CVC Alias:</strong> ${card_object.data.attributes.cvc_alias}</p>
+        <p><strong>Last 4:</strong> ${card_object.data.attributes.last4}</p>
+        <p><strong>Expiration:</strong> ${card_object.data.attributes.exp_month}/${card_object.data.attributes.exp_year}</p>
+        <p><strong>BIN:</strong> ${card_object.data.attributes.bin}</p>
+      `;
+
+                resultDiv.style.display = 'block';
+                errorDiv.style.display = 'none';
+            },
+            function(e) {
+                // Error callback
+                console.log("Card creation failed:", e);
+
+                const errorDetails = document.getElementById('error-details');
+                // WARN: Displaying the full error object (JSON.stringify(e, null, 2)) directly in the UI is a security risk. It can leak sensitive information or internal implementation details to malicious users. It's much safer to display a generic, user-friendly error message and log the full error details on the server-side for debugging purposes.
+                errorDetails.innerHTML = `
+        <p><strong>Error:</strong> ${e.message || 'Unknown error occurred'}</p>
+        <p><strong>Details:</strong> ${JSON.stringify(e, null, 2)}</p>
+      `;
+
+                errorDiv.style.display = 'block';
+                resultDiv.style.display = 'none';
+            });
+
+    } catch (err) {
+        console.error('Error:', err);
+
+        const errorDetails = document.getElementById('error-details');
+        errorDetails.innerHTML = `
+      <p><strong>Error:</strong> ${err.message}</p>
+    `;
+
+        errorDiv.style.display = 'block';
+        resultDiv.style.display = 'none';
+    } finally {
+        // Re-enable button
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Collect Card';
+    }
+});
