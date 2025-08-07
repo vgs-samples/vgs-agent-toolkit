@@ -74,7 +74,7 @@ document.getElementById('submit-btn').addEventListener('click', async () => {
     const { access_token } = await res.json();
 
     // Create card using VGS Collect
-    const response = await form.createCard({
+    form.createCard({
       auth: access_token,
       data: {
         "cardholder": {}
