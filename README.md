@@ -5,7 +5,8 @@ The VGS Agent provides examples for how to use VGS with popular agent frameworks
 ## Examples
 
 - [VGS Secure Data Platform (Vault + Proxy) - Browser Proxy Form Fill MCP Server](examples/secure-data-mcp-example/)
-
+- [VGS Agentic Commerce Tutorial](examples/agentic-commerce-tutorial/)
+- [VGS Collect Prompt Integration](examples/mcp-ui-collect/)
 
 ## MCP Servers
 
