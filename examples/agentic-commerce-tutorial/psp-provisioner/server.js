@@ -42,12 +42,14 @@ function getProxyAgent() {
 // Create Stripe Payment Method using VGS Outbound Proxy
 async function createStripeToken(cardObject) {
     let agent = getProxyAgent();
-    let buff = new Buffer(STRIPE_KEY + ":");
+    let buff = Buffer.from(STRIPE_KEY + ":");
     let base64Auth = buff.toString('base64');
 
     const instance = axios.create({
         baseURL: 'https://api.stripe.com',
-        headers: { 'authorization': `Basic ${base64Auth}` },
+        headers: {
+            'authorization': `Basic ${base64Auth}`
+        },
         httpsAgent: agent,
     });
 
@@ -67,12 +69,11 @@ async function createStripeToken(cardObject) {
             psp_token: pm_response.data.id,
             payment_method: pm_response.data
         };
-    }
-    catch (error) {
+    } catch (error) {
         console.error('Stripe API Error:', error.response?.data || error.message);
-        return { 
-            success: false, 
-            error: error.response?.data || error.message 
+        return {
+            success: false,
+            error: error.response?.data || error.message
         };
     }
 }
@@ -80,12 +81,15 @@ async function createStripeToken(cardObject) {
 // Endpoint to provision PSP token
 app.post('/provision-psp-token', async (req, res) => {
     try {
-        const { cardObject, pspProvider = 'stripe' } = req.body;
-        
+        const {
+            cardObject,
+            pspProvider = 'stripe'
+        } = req.body;
+
         if (!cardObject) {
-            return res.status(400).json({ 
-                success: false, 
-                error: 'Card object is required' 
+            return res.status(400).json({
+                success: false,
+                error: 'Card object is required'
             });
         }
 
@@ -97,9 +101,9 @@ app.post('/provision-psp-token', async (req, res) => {
                 result = await createStripeToken(cardObject.data);
                 break;
             default:
-                return res.status(400).json({ 
-                    success: false, 
-                    error: 'Unsupported PSP provider' 
+                return res.status(400).json({
+                    success: false,
+                    error: 'Unsupported PSP provider'
                 });
         }
 
@@ -120,17 +124,17 @@ app.post('/provision-psp-token', async (req, res) => {
 
     } catch (error) {
         console.error('Error provisioning PSP token:', error);
-        res.status(500).json({ 
-            success: false, 
-            error: 'Internal server error' 
+        res.status(500).json({
+            success: false,
+            error: 'Internal server error'
         });
     }
 });
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-    res.json({ 
-        status: 'healthy', 
+    res.json({
+        status: 'healthy',
         vault_id: VAULT_ID,
         environment: ENVIRONMENT,
         psp_configured: !!STRIPE_KEY
@@ -152,4 +156,4 @@ app.listen(PORT, () => {
     console.log(`Vault ID: ${VAULT_ID}`);
     console.log(`Environment: ${ENVIRONMENT}`);
     console.log(`Outbound URL: ${VAULT_ID}.${ENVIRONMENT}.verygoodproxy.com:8443`);
-}); 
+});
