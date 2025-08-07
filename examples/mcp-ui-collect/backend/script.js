@@ -55,11 +55,9 @@ form.cardCVCField('#card-cvc', {
 // Handle form submission
 document.getElementById('submit-btn').addEventListener('click', async () => {
   const submitBtn = document.getElementById('submit-btn');
-  const resultDiv = document.getElementById('result');
   const errorDiv = document.getElementById('error');
   
   // Hide previous results
-  resultDiv.style.display = 'none';
   errorDiv.style.display = 'none';
   
   // Disable button and show loading
@@ -85,24 +83,12 @@ document.getElementById('submit-btn').addEventListener('click', async () => {
     function (status, card_object) {
       // Success callback
       console.log("Card created successfully!");
-      console.log("Card ID: " + card_object.data.id);
-      console.log("PAN Alias: " + card_object.data.attributes.pan_alias);
-      console.log("CVC Alias: " + card_object.data.attributes.cvc_alias);
-      console.log('Card Object: ', card_object.data);
-      
-      // Display success message
-      const cardDetails = document.getElementById('card-details');
-      cardDetails.innerHTML = `
-        <p><strong>Card ID:</strong> ${card_object.data.id}</p>
-        <p><strong>PAN Alias:</strong> ${card_object.data.attributes.pan_alias}</p>
-        <p><strong>CVC Alias:</strong> ${card_object.data.attributes.cvc_alias}</p>
-        <p><strong>Last 4:</strong> ${card_object.data.attributes.last4}</p>
-        <p><strong>Expiration:</strong> ${card_object.data.attributes.exp_month}/${card_object.data.attributes.exp_year}</p>
-        <p><strong>BIN:</strong> ${card_object.data.attributes.bin}</p>
-      `;
-      
-      resultDiv.style.display = 'block';
+      console.log("Card ID: " + card_object);
+
       errorDiv.style.display = 'none';
+
+      window.parent.postMessage({type: 'ui-action', action: 'card-created', card: card_object}, '*');
+
     },
     function (e) {
       // Error callback
@@ -115,7 +101,6 @@ document.getElementById('submit-btn').addEventListener('click', async () => {
       `;
       
       errorDiv.style.display = 'block';
-      resultDiv.style.display = 'none';
     });
     
   } catch (err) {
@@ -127,7 +112,6 @@ document.getElementById('submit-btn').addEventListener('click', async () => {
     `;
     
     errorDiv.style.display = 'block';
-    resultDiv.style.display = 'none';
   } finally {
     // Re-enable button
     submitBtn.disabled = false;

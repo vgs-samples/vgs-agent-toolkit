@@ -8,7 +8,7 @@ from mcp.types import EmbeddedResource, TextResourceContents
 from pydantic import AnyUrl
 from starlette.middleware import Middleware
 from starlette.middleware.cors import CORSMiddleware
-from starlette.responses import JSONResponse, PlainTextResponse
+from starlette.responses import HTMLResponse, JSONResponse, PlainTextResponse
 
 CLIENT_ID = os.environ.get("VGS_CLIENT_ID")
 CLIENT_SECRET = os.environ.get("VGS_CLIENT_SECRET")
@@ -128,9 +128,9 @@ def collect(ctx: Context):
         EmbeddedResource(
             type="resource",
             resource=TextResourceContents(
-                uri=AnyUrl("ui://hello-world/collect"),
-                mimeType="text/html",
-                text=open("collect.html", "r").read(),
+                uri=AnyUrl("ui://vgs-collect-form"),
+                mimeType="text/uri-list",
+                text="http://localhost:8080/collect.html",
             ),
         ),
     )
@@ -161,6 +161,10 @@ def get_http_data() -> dict:
 </html>
 """
     return html
+
+
+async def get_collect_page(request):
+    return HTMLResponse(open("collect.html", "r").read())
 
 
 async def get_collect_token(request):
@@ -197,6 +201,7 @@ custom_middleware = [
 http_app = mcp.http_app(middleware=custom_middleware)
 http_app.add_route("/get-collect-token", get_collect_token)
 http_app.add_route("/script.js", get_script)
+http_app.add_route("/collect.html", get_collect_page)
 
 
 if __name__ == "__main__":

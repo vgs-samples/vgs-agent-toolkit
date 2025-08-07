@@ -253,11 +253,11 @@ function App() {
         type: 'assistant',
         content: `Form submitted! Name: ${result.data.name}, Email: ${result.data.email}`
       }])
-    } else if (result.action === 'collect-submitted') {
+    } else if (result.action === 'card-created') {
       setMessages(prev => [...prev, {
         id: Date.now().toString(),
         type: 'assistant',
-        content: `Data collection form submitted! Message: ${result.data.message}`
+        content: `Card ${result.card.data.id} created in VGS!`
       }])
     }
   }
