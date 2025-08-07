@@ -6,6 +6,8 @@ A demonstration of how to integrate [VGS Collect](https://www.verygoodsecurity.c
 
 This demo showcases how to build an AI agent that can securely collect payment information from users without any PCI-sensitive data passing through the agent itself. The solution leverages VGS Collect's native iFrame interface to isolate sensitive payment data from the parent application and AI agent.
 
+![til](./collect-prompt.gif)
+
 ### Key Features
 
 - 🔒 **PCI Compliance**: Sensitive payment data never touches your servers or AI agent
