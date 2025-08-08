@@ -2,6 +2,14 @@
 
 This directory contains practical examples demonstrating VGS Agentic Commerce implementation. These projects show how to securely collect card data and provision PSP tokens using VGS's PCI-compliant infrastructure.
 
+This project was generated using the following prompts in [Cursor](https://cursor.com/). 
+
+> read @https://docs.verygoodsecurity.com/agentic-commerce/collect-card-data-from-user and create a sample app for me in @collect-card-data/
+
+and
+
+> read @https://docs.verygoodsecurity.com/agentic-commerce/provisioning-psp-tokens-for-payments and create a sample app for me in @psp-provisioner/
+
 ## 📚 Original Tutorial
 
 For the complete tutorial and detailed documentation, visit:
