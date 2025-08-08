@@ -1,6 +1,5 @@
 version: 2
 updates:
-  # Backend Python dependencies
   - package-ecosystem: "pip"
     directory: "/examples/secure-data-mcp-example/backend"
     schedule:
@@ -23,5 +22,25 @@ updates:
   # MCP server Node.js
   - package-ecosystem: "npm"
     directory: "/examples/secure-data-mcp-example/mcp-server"
+    schedule:
+      interval: "weekly"
+  # Agentic Commerce Tutorial - Collect Card Data
+  - package-ecosystem: "npm"
+    directory: "/examples/agentic-commerce-tutorial/collect-card-data"
+    schedule:
+      interval: "weekly"
+  # Agentic Commerce Tutorial - PSP Provisioner
+  - package-ecosystem: "npm"
+    directory: "/examples/agentic-commerce-tutorial/psp-provisioner"
+    schedule:
+      interval: "weekly"
+  # MCP UI Collect - Frontend
+  - package-ecosystem: "npm"
+    directory: "/examples/mcp-ui-collect/frontend"
+    schedule:
+      interval: "weekly"
+  # MCP UI Collect - Backend
+  - package-ecosystem: "pip"
+    directory: "/examples/mcp-ui-collect/backend"
     schedule:
       interval: "weekly" 
