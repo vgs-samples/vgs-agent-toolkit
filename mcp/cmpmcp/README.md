@@ -33,4 +33,4 @@ This will start the FastMCP server and print a confirmation message.
 
 To see an example configuration look at `mcp.json` which shows a sample configuration file. Note the environment variables which are configured using instructions from SETUP.md
 
-Make sure you ask your model to read SETUP.md to configure environment variables and ROUTES.md to learn how to manage routes. 
+Make sure you ask your model to read [SETUP.md](./SETUP.md) to configure environment variables. 
