@@ -1,0 +1,9 @@
+README.md
+auth.py
+main.py
+pyproject.toml
+vaultmcp.egg-info/PKG-INFO
+vaultmcp.egg-info/SOURCES.txt
+vaultmcp.egg-info/dependency_links.txt
+vaultmcp.egg-info/requires.txt
+vaultmcp.egg-info/top_level.txt

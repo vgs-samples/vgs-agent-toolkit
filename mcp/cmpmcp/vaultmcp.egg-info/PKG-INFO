@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: vaultmcp
+Version: 0.1.0
+Summary: Add your description here
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: fastmcp>=2.7.0
+Requires-Dist: python-keycloak-client>=0.2.3
+Requires-Dist: vgs-cli>=1.30.16
+Requires-Dist: requests>=2.31.0

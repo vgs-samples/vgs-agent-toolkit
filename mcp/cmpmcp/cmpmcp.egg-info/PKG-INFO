@@ -1,0 +1,48 @@
+Metadata-Version: 2.4
+Name: cmpmcp
+Version: 0.1.0
+Summary: Add your description here
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: fastmcp>=2.7.0
+Requires-Dist: uv>=0.8.13
+Requires-Dist: python-keycloak-client>=0.2.3
+Requires-Dist: vgs-cli>=1.30.16
+Requires-Dist: requests>=2.31.0
+
+# VGS CMP MCP Server
+
+The VGS Credential Management Platform MCP Server. 
+
+See the [VGS Docs](https://docs.verygoodsecurity.com/card-management) for all documents CMP.
+
+This project uses `fastmcp` and `uv` to initialize and run a MCP server for configuring the VGS Secure Data Platform (Vault + Proxy).
+
+## Prerequisites
+
+- Python 3.x
+- `fastmcp` and `uv` libraries installed
+
+## Installation
+
+To install the required libraries, run:
+
+```bash
+pip install uv
+uv venv
+source .venv/bin/activate
+```
+
+## Running the Application
+
+To run the application, navigate to the `mcp` directory and execute the following command:
+
+```bash
+uv --directory $(pwd) run main.py
+```
+
+This will start the FastMCP server and print a confirmation message. 
+
+To see an example configuration look at `mcp.json` which shows a sample configuration file. Note the environment variables which are configured using instructions from SETUP.md
+
+Make sure you ask your model to read SETUP.md to configure environment variables and ROUTES.md to learn how to manage routes. 

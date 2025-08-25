@@ -1,0 +1,11 @@
+README.md
+pyproject.toml
+cmp/__init__.py
+cmp/auth.py
+cmp/main.py
+cmpmcp.egg-info/PKG-INFO
+cmpmcp.egg-info/SOURCES.txt
+cmpmcp.egg-info/dependency_links.txt
+cmpmcp.egg-info/requires.txt
+cmpmcp.egg-info/top_level.txt
+tests/test_main.py
