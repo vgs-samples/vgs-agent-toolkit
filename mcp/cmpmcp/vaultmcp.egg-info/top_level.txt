@@ -1,4 +1,0 @@
-auth
-build
-main
-venv
