@@ -191,7 +191,7 @@ def test_fetch_network_token_cryptogram(
     ) as mock_get_jwt_token:
         mock_get_jwt_token.return_value = mock_jwt_token
         mock_requests_post.return_value = mock_cryptogram_response
-        response = fetch_network_token_cryptogram.fn("CRD123456789", "sandbox")
+        response = fetch_network_token_cryptogram.fn("CRD123456789", "sandbox", None, None, None, None)
         assert response == mock_cryptogram_response.json.return_value
 
 
