@@ -34,6 +34,7 @@ def updated_card_id():
     return response.json()["data"]["id"]
 
 
+# Note: access to this endpoint is conditional. VGS staff must enable your account.
 @pytest.mark.skipif(
     os.getenv("VGS_CLIENT_ID") is None,
     reason="VGS_CLIENT_ID environment variable not set",

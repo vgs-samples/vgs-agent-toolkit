@@ -1,3 +1,4 @@
+import decimal
 import logging
 import os
 from typing import Annotated
@@ -136,9 +137,45 @@ def fetch_network_token_cryptogram(
             default="sandbox",
         ),
     ],
+    currency_code: Annotated[
+        str,
+        Field(
+            description="ISO 4217 alpha 3 currency code for the transaction to two decimal places",
+            default=None,
+            pattern="^[A-Z]{3}$",
+        ),
+    ],
+    amount: Annotated[
+        decimal.Decimal,
+        Field(
+            description="Transaction amount in the specified currency",
+            default=None,
+            ge=0,
+        ),
+    ],
+    transaction_type: Annotated[
+        str,
+        Field(
+            description="Type of transaction (e.g. ECOM for e-commerce)",
+            default="ECOM",
+            pattern="^[A-Z]+$",
+            choices=["ECOM", "AFT"],
+        ),
+    ],
+    cryptogram_type: Annotated[
+        str,
+        Field(
+            description="Type of cryptogram to generate (e.g. TAVV)",
+            default="TAVV",
+            pattern="^[A-Z]+$",
+            choices=["TAVV", "DTVV"],
+        ),
+    ],
 ):
     """
     Fetch a network token cryptogram for a specific card.
+
+    https://docs.verygoodsecurity.com/card-management/api/network-tokens#post-cards-card_id-cryptogram
 
     This endpoint generates a unique, one-time encrypted cryptogram for each transaction using a network token.
     The cryptogram is valid for 24 hours and should be used immediately for authorization requests.
@@ -160,6 +197,14 @@ def fetch_network_token_cryptogram(
 
     # POST request with data object as per VGS API documentation
     payload = {"data": {"attributes": {}}}
+    for key, value in {
+        "currency_code": currency_code,
+        "amount": amount,
+        "transaction_type": transaction_type,
+        "cryptogram_type": cryptogram_type,
+    }.items():
+        if value is not None:
+            payload["data"]["attributes"][key] = value
     response = requests.post(url, headers=headers, json=payload)
     response.raise_for_status()
     return response.json()
@@ -183,7 +228,7 @@ def get_real_time_account_update(
     ],
 ):
     """
-    Get real-time card updates without enrolling in account updater.
+    Get a real-time card update without enrolling in account updater.
 
     This endpoint offers a stateless, real-time way to check for the latest card information
     without enrolling the card in account updater. It supports Visa and Mastercard for one-time
@@ -229,9 +274,11 @@ def subscribe_to_account_updates(
     ],
 ):
     """
-    Subscribe to real-time account updates.
+    Subscribe to account updates.
 
-    This endpoint subscribes your application to receive real-time notifications
+    https://docs.verygoodsecurity.com/card-management/api/account-updater
+
+    This endpoint subscribes your application to receive notifications
     when account updates occur, such as card status changes, expiry updates, etc.
     The webhook URL will receive POST requests with update information.
 
@@ -275,7 +322,9 @@ def unsubscribe_from_account_updates(
     ],
 ):
     """
-    Unsubscribe from real-time account updates.
+    Unsubscribe from account updates.
+
+    https://docs.verygoodsecurity.com/card-management/api/account-updater
 
     This endpoint removes your subscription to account updates,
     stopping the delivery of webhook notifications for the specified subscription.

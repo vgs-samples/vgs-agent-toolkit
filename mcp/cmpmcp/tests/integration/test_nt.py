@@ -9,7 +9,7 @@ from cmp.main import (create_network_token, environments,
 
 
 @pytest.fixture
-def create_network_token_card():
+def network_token_compatible_card_id():
     # see https://docs.verygoodsecurity.com/card-management/testing/create-card#method-3a--network-token-provisioning-for-visamastercard-cards-with-networks
     test_payload = {
         "data": {
@@ -25,7 +25,9 @@ def create_network_token_card():
         f"{environments['sandbox']['cmp_url']}/cards",
         json=test_payload,
         headers={
-            "Authorization": f"Bearer {get_jwt_token(environments['sandbox']['keycloak_url'], environments['sandbox']['keycloak_realm'])}"
+            "Authorization": f"Bearer {get_jwt_token(environments['sandbox']['keycloak_url'], environments['sandbox']['keycloak_realm'])}",
+            "Content-Type": "application/vnd.api+json",
+            "Accept": "application/vnd.api+json",
         },
     )
     return response.json()["data"]["id"]
@@ -35,8 +37,8 @@ def create_network_token_card():
     os.getenv("VGS_CLIENT_ID") is None,
     reason="VGS_CLIENT_ID environment variable not set",
 )
-def test_create_network_token():
-    response = create_network_token.fn("CRDj4BWv1xR3qSkzZK879dCT4", "sandbox")
+def test_create_network_token(network_token_compatible_card_id):
+    response = create_network_token.fn(network_token_compatible_card_id, "sandbox")
     print(response)
 
 
@@ -44,6 +46,20 @@ def test_create_network_token():
     os.getenv("VGS_CLIENT_ID") is None,
     reason="VGS_CLIENT_ID environment variable not set",
 )
-def test_fetch_network_token_cryptogram():
-    response = fetch_network_token_cryptogram.fn("CRDj4BWv1xR3qSkzZK879dCT4", "sandbox")
+def test_fetch_network_token_cryptogram(network_token_compatible_card_id):
+    response = fetch_network_token_cryptogram.fn(
+        network_token_compatible_card_id, "sandbox", None, None, None, None
+    )
+    print(response)
+
+
+@pytest.mark.skipif(
+    os.getenv("VGS_CLIENT_ID") is None,
+    reason="VGS_CLIENT_ID environment variable not set",
+)
+def test_get_card(network_token_compatible_card_id):
+    response = get_card.fn(
+        network_token_compatible_card_id,
+        "sandbox",
+    )
     print(response)
