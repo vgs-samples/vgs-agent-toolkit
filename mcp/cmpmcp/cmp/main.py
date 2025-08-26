@@ -165,6 +165,143 @@ def fetch_network_token_cryptogram(
     return response.json()
 
 
+@mcp.tool()
+def get_real_time_account_update(
+    card_id: Annotated[
+        str,
+        Field(
+            description="ID of the Card to check for real-time updates",
+            pattern="CRD[A-z0-9]+",
+        ),
+    ],
+    environment: Annotated[
+        str,
+        Field(
+            description="Environment to check card updates in.",
+            default="sandbox",
+        ),
+    ],
+):
+    """
+    Get real-time card updates without enrolling in account updater.
+
+    This endpoint offers a stateless, real-time way to check for the latest card information
+    without enrolling the card in account updater. It supports Visa and Mastercard for one-time
+    update lookups. For American Express (AMEX) and Discover, updates are only available for
+    cards already enrolled in account updater via VGS.
+
+    Args:
+        card_id (str): The ID of the Card to check for real-time updates.
+        environment (str): The environment to check card updates in.
+    """
+    token = auth.get_jwt_token(
+        environments[environment]["keycloak_url"],
+        environments[environment]["keycloak_realm"],
+    )
+    url = f"{environments[environment]['cmp_url']}/cards/{card_id}/check"
+    headers = {
+        "accept": "application/vnd.api+json",
+        "content-type": "application/vnd.api+json",
+        "authorization": f"Bearer {token}",
+    }
+
+    # POST request with empty body as per VGS API documentation
+    response = requests.post(url, headers=headers, json={})
+    response.raise_for_status()
+    return response.json()
+
+
+@mcp.tool()
+def subscribe_to_account_updates(
+    card_id: Annotated[
+        str,
+        Field(
+            description="ID of the Card to check for real-time updates",
+            pattern="CRD[A-z0-9]+",
+        ),
+    ],
+    environment: Annotated[
+        str,
+        Field(
+            description="Environment to subscribe to account updates in.",
+            default="sandbox",
+        ),
+    ],
+):
+    """
+    Subscribe to real-time account updates.
+
+    This endpoint subscribes your application to receive real-time notifications
+    when account updates occur, such as card status changes, expiry updates, etc.
+    The webhook URL will receive POST requests with update information.
+
+    Args:
+        webhook_url (str): The URL where account update webhooks will be sent.
+        environment (str): The environment to subscribe to account updates in.
+    """
+    token = auth.get_jwt_token(
+        environments[environment]["keycloak_url"],
+        environments[environment]["keycloak_realm"],
+    )
+    url = f"{environments[environment]['cmp_url']}/cards/{card_id}/card-update-subscriptions"
+    headers = {
+        "accept": "application/vnd.api+json",
+        "content-type": "application/vnd.api+json",
+        "authorization": f"Bearer {token}",
+    }
+
+    payload = {}
+
+    response = requests.post(url, headers=headers, json=payload)
+    response.raise_for_status()
+    return response.json()
+
+
+@mcp.tool()
+def unsubscribe_from_account_updates(
+    card_id: Annotated[
+        str,
+        Field(
+            description="ID of the Card to check for real-time updates",
+            pattern="CRD[A-z0-9]+",
+        ),
+    ],
+    environment: Annotated[
+        str,
+        Field(
+            description="Environment to unsubscribe from account updates in.",
+            default="sandbox",
+        ),
+    ],
+):
+    """
+    Unsubscribe from real-time account updates.
+
+    This endpoint removes your subscription to account updates,
+    stopping the delivery of webhook notifications for the specified subscription.
+
+    Args:
+        subscription_id (str): The ID of the subscription to unsubscribe from.
+        environment (str): The environment to unsubscribe from account updates in.
+    """
+    token = auth.get_jwt_token(
+        environments[environment]["keycloak_url"],
+        environments[environment]["keycloak_realm"],
+    )
+    url = f"{environments[environment]['cmp_url']}/cards/{card_id}/card-update-subscriptions"
+    headers = {
+        "accept": "application/vnd.api+json",
+        "content-type": "application/vnd.api+json",
+        "authorization": f"Bearer {token}",
+    }
+
+    response = requests.delete(url, headers=headers)
+    response.raise_for_status()
+    return {
+        "message": f"Successfully unsubscribed {card_id} from account updates",
+    }
+
+
 if __name__ == "__main__":
     # Initialize and run the server
     mcp.run(transport="stdio")

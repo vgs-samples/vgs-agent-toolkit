@@ -9,7 +9,7 @@ from cmp.main import (create_network_token, environments,
 
 
 @pytest.fixture
-def test_card_id():
+def create_network_token_card():
     # see https://docs.verygoodsecurity.com/card-management/testing/create-card#method-3a--network-token-provisioning-for-visamastercard-cards-with-networks
     test_payload = {
         "data": {
@@ -21,7 +21,13 @@ def test_card_id():
             }
         }
     }
-    response = requests.get(f"{environments['sandbox']['cmp_url']}/cards")
+    response = requests.post(
+        f"{environments['sandbox']['cmp_url']}/cards",
+        json=test_payload,
+        headers={
+            "Authorization": f"Bearer {get_jwt_token(environments['sandbox']['keycloak_url'], environments['sandbox']['keycloak_realm'])}"
+        },
+    )
     return response.json()["data"]["id"]
 
 

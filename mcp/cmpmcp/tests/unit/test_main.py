@@ -4,7 +4,10 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from cmp.main import (create_network_token, environments,
-                      fetch_network_token_cryptogram, get_card)
+                      fetch_network_token_cryptogram, get_card,
+                      get_real_time_account_update,
+                      subscribe_to_account_updates,
+                      unsubscribe_from_account_updates)
 
 
 @pytest.fixture
@@ -106,6 +109,58 @@ def mock_cryptogram_response():
     return mock_response
 
 
+@pytest.fixture
+def mock_real_time_account_update_response():
+    """Mock successful real-time card update response"""
+    mock_response = MagicMock()
+    mock_response.json.return_value = {
+        "data": {
+            "type": "card_updates",
+            "attributes": {
+                "updated_values": [
+                    {
+                        "field_name": "pan",
+                        "old_value": 4211111111111112,
+                        "new_value": 4311111111111113,
+                    },
+                    {"field_name": "exp_month", "old_value": 4, "new_value": 6},
+                    {"field_name": "exp_year", "old_value": 24, "new_value": 33},
+                ],
+                "event": "updated",
+            },
+        }
+    }
+    mock_response.raise_for_status.return_value = None
+    return mock_response
+
+
+@pytest.fixture
+def mock_subscription_response():
+    """Mock successful subscription response"""
+    mock_response = MagicMock()
+    mock_response.json.return_value = {
+        "data": {
+            "type": "card_update_subscriptions",
+            "id": "CUS123456789",
+            "attributes": {
+                "state": "enrolled",
+                "created_at": "2025-01-17T12:53:17.94829",
+                "updated_at": "2025-01-17T12:53:17.94829",
+            },
+        }
+    }
+    mock_response.raise_for_status.return_value = None
+    return mock_response
+
+
+@pytest.fixture
+def mock_unsubscribe_response():
+    """Mock successful unsubscribe response"""
+    mock_response = MagicMock()
+    mock_response.raise_for_status.return_value = None
+    return mock_response
+
+
 def test_get_card(mock_env_vars, mock_jwt_token, mock_response):
     with patch("cmp.main.requests.get") as mock_requests_get, patch(
         "cmp.main.auth.get_jwt_token"
@@ -138,3 +193,42 @@ def test_fetch_network_token_cryptogram(
         mock_requests_post.return_value = mock_cryptogram_response
         response = fetch_network_token_cryptogram.fn("CRD123456789", "sandbox")
         assert response == mock_cryptogram_response.json.return_value
+
+
+def test_get_real_time_account_update(
+    mock_env_vars, mock_jwt_token, mock_real_time_account_update_response
+):
+    with patch("cmp.main.requests.post") as mock_requests_post, patch(
+        "cmp.main.auth.get_jwt_token"
+    ) as mock_get_jwt_token:
+        mock_get_jwt_token.return_value = mock_jwt_token
+        mock_requests_post.return_value = mock_real_time_account_update_response
+        response = get_real_time_account_update.fn("CRD123456789", "sandbox")
+        assert response == mock_real_time_account_update_response.json.return_value
+
+
+def test_subscribe_to_account_updates(
+    mock_env_vars, mock_jwt_token, mock_subscription_response
+):
+    with patch("cmp.main.requests.post") as mock_requests_post, patch(
+        "cmp.main.auth.get_jwt_token"
+    ) as mock_get_jwt_token:
+        mock_get_jwt_token.return_value = mock_jwt_token
+        mock_requests_post.return_value = mock_subscription_response
+        response = subscribe_to_account_updates.fn("CRD123456789", "sandbox")
+        assert response == mock_subscription_response.json.return_value
+
+
+def test_unsubscribe_from_account_updates(
+    mock_env_vars, mock_jwt_token, mock_unsubscribe_response
+):
+    with patch("cmp.main.requests.delete") as mock_requests_delete, patch(
+        "cmp.main.auth.get_jwt_token"
+    ) as mock_get_jwt_token:
+        mock_get_jwt_token.return_value = mock_jwt_token
+        mock_requests_delete.return_value = mock_unsubscribe_response
+        response = unsubscribe_from_account_updates.fn("CRD123456789", "sandbox")
+        expected_response = {
+            "message": "Successfully unsubscribed CRD123456789 from account updates",
+        }
+        assert response == expected_response
