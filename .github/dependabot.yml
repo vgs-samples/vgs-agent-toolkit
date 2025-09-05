@@ -9,6 +9,11 @@ updates:
     directory: "/mcp/vaultmcp"
     schedule:
       interval: "weekly"
+  # CMP MCP Python project (pyproject.toml/uv)
+  - package-ecosystem: "pip"
+    directory: "/mcp/cmpmcp"
+    schedule:
+      interval: "weekly"
   # Root Node.js (if used)
   - package-ecosystem: "npm"
     directory: "/examples/secure-data-mcp-example"

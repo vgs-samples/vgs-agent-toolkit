@@ -11,6 +11,7 @@ The VGS Agent provides examples for how to use VGS with popular agent frameworks
 ## MCP Servers
 
 - [VGS Secure Data Platform (Vault + Proxy) MCP Server](mcp/vaultmcp/)
+- [VGS Credential Management Platform (CMP) MCP Server](mcp/cmpmcp/)
 
 ## Best Practices
 

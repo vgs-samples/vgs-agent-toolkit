@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "cmpmcp": {
+      "type": "stdio",
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/Users/marshall/code/vgs/vgs-agent-toolkit/mcp/cmpmcp",
+        "run",
+        "python", "-m",
+        "cmp.main"
+      ],
+      "env": {
+        "VGS_CLIENT_ID": "some-client-id",
+        "VGS_CLIENT_SECRET": "some-client-secret",
+        "KEYCLOAK_URL": "https://auth.verygoodsecurity.com/auth",
+        "KEYCLOAK_REALM": "vgs"
+      }
+    }
+  }
+}
