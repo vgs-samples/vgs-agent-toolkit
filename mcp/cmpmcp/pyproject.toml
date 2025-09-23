@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cmpmcp"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastmcp>=2.7.0",
+    "uv>=0.8.13",
+    "python-keycloak-client>=0.2.3",
+    "vgs-cli>=1.30.16",
+    "requests>=2.31.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+    "pdbpp",
+    "pytest-black>=0.6.0",
+]
+
+[tool.setuptools]
+py-modules = ["main", "auth"]
+
+[tool.setuptools.packages.find]
+exclude = ["test_*", "tests", "venv", "__pycache__"]
