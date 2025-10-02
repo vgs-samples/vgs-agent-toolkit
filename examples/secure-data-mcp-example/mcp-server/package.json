@@ -10,7 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.18.1",
+    "@modelcontextprotocol/sdk": "^1.18.2",
     "http-proxy-middleware": "^3.0.5",
     "puppeteer": "^24.22.2",
     "puppeteer-extra": "^3.3.6",
