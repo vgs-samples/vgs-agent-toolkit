@@ -8,6 +8,7 @@ from cmp.main import (environments, get_real_time_account_update,
                       subscribe_to_account_updates,
                       unsubscribe_from_account_updates)
 
+environment = os.getenv("ENVIRONMENT", "sandbox")
 
 @pytest.fixture
 def updated_card_id():
@@ -23,10 +24,10 @@ def updated_card_id():
         }
     }
     response = requests.post(
-        f"{environments['sandbox']['cmp_url']}/cards",
+        f"{environments[environment]['cmp_url']}/cards",
         json=test_payload,
         headers={
-            "Authorization": f"Bearer {get_jwt_token(environments['sandbox']['keycloak_url'], environments['sandbox']['keycloak_realm'])}",
+            "Authorization": f"Bearer {get_jwt_token(environments[environment]['keycloak_url'], environments[environment]['keycloak_realm'])}",
             "Content-Type": "application/vnd.api+json",
             "Accept": "application/vnd.api+json",
         },
@@ -42,7 +43,7 @@ def updated_card_id():
 def test_get_real_time_account_update(updated_card_id):
     """Test real-time account update check for a specific card"""
 
-    response = get_real_time_account_update.fn(updated_card_id, "sandbox")
+    response = get_real_time_account_update.fn(updated_card_id, environment)
     print(f"Real-time account update response: {response}")
 
     # Verify response structure
@@ -70,7 +71,7 @@ def test_get_real_time_account_update(updated_card_id):
 def test_subscribe_to_account_updates(updated_card_id):
     """Test subscribing to account updates for a specific card"""
 
-    response = subscribe_to_account_updates.fn(updated_card_id, "sandbox")
+    response = subscribe_to_account_updates.fn(updated_card_id, environment)
     print(f"Subscription response: {response}")
 
     # Verify response structure
@@ -98,12 +99,12 @@ def test_unsubscribe_from_account_updates(updated_card_id):
     """Test unsubscribing from account updates for a specific card"""
 
     # First, create a subscription
-    subscription_response = subscribe_to_account_updates.fn(updated_card_id, "sandbox")
+    subscription_response = subscribe_to_account_updates.fn(updated_card_id, environment)
     subscription_id = subscription_response["data"]["id"]
     print(f"Created subscription for testing: {subscription_id}")
 
     # Now test unsubscription
-    response = unsubscribe_from_account_updates.fn(updated_card_id, "sandbox")
+    response = unsubscribe_from_account_updates.fn(updated_card_id, environment)
     print(f"Unsubscription response: {response}")
 
     # Verify response structure

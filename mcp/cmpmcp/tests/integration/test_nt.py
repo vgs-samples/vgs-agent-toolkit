@@ -8,6 +8,8 @@ from cmp.main import (create_network_token, environments,
                       fetch_network_token_cryptogram, get_card)
 
 
+environment = os.getenv("ENVIRONMENT", "sandbox")
+
 @pytest.fixture
 def network_token_compatible_card_id():
     # see https://docs.verygoodsecurity.com/card-management/testing/create-card#method-3a--network-token-provisioning-for-visamastercard-cards-with-networks
@@ -22,10 +24,10 @@ def network_token_compatible_card_id():
         }
     }
     response = requests.post(
-        f"{environments['sandbox']['cmp_url']}/cards",
+        f"{environments[environment]['cmp_url']}/cards",
         json=test_payload,
         headers={
-            "Authorization": f"Bearer {get_jwt_token(environments['sandbox']['keycloak_url'], environments['sandbox']['keycloak_realm'])}",
+            "Authorization": f"Bearer {get_jwt_token(environments[environment]['keycloak_url'], environments[environment]['keycloak_realm'])}",
             "Content-Type": "application/vnd.api+json",
             "Accept": "application/vnd.api+json",
         },
@@ -38,7 +40,7 @@ def network_token_compatible_card_id():
     reason="VGS_CLIENT_ID environment variable not set",
 )
 def test_create_network_token(network_token_compatible_card_id):
-    response = create_network_token.fn(network_token_compatible_card_id, "sandbox")
+    response = create_network_token.fn(network_token_compatible_card_id, environment)
     print(response)
 
 
@@ -48,7 +50,7 @@ def test_create_network_token(network_token_compatible_card_id):
 )
 def test_fetch_network_token_cryptogram(network_token_compatible_card_id):
     response = fetch_network_token_cryptogram.fn(
-        network_token_compatible_card_id, "sandbox", None, None, None, None
+        network_token_compatible_card_id, environment, None, None, None, None
     )
     print(response)
 
@@ -60,6 +62,6 @@ def test_fetch_network_token_cryptogram(network_token_compatible_card_id):
 def test_get_card(network_token_compatible_card_id):
     response = get_card.fn(
         network_token_compatible_card_id,
-        "sandbox",
+        environment,
     )
     print(response)
