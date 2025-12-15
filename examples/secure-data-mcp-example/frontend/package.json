@@ -19,7 +19,7 @@
     "tunnel": "^0.0.6"
   },
   "devDependencies": {
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.2",
     "jest": "^30.2.0"
   }
 }
