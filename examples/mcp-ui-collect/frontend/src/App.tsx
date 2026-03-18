@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { UIResourceRenderer } from '@mcp-ui/client'
+import { isUIResource } from '@mcp-ui/client'
 import './App.css'
 
 interface Message {
@@ -214,11 +214,13 @@ function App() {
               <div className="message-content">
                 {message.content}
               </div>
-              {message.uiResource && (
+              {message.uiResource?.resource?.text && (
                 <div className="ui-resource">
-                  <UIResourceRenderer
-                    resource={message.uiResource.resource}
-                    onUIAction={handleUIAction}
+                  <iframe
+                    srcDoc={message.uiResource.resource.text}
+                    sandbox="allow-scripts allow-forms"
+                    style={{ width: '100%', minHeight: '400px', border: 'none' }}
+                    title="MCP UI Resource"
                   />
                 </div>
               )}
