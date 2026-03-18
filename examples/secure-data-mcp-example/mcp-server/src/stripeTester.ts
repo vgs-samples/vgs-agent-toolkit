@@ -69,7 +69,7 @@ export class StripeTester {
       await this.page.authenticate({ username, password });
     }
     await this.createProxy(this.page);
-    this.page.on('pageerror', (error: Error) => {
+    this.page.on('pageerror', (error) => {
       console.error('JavaScript error on the page:', error);
     });
     this.page.on('console', (msg: ConsoleMessage) => {
