@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "fastmcp>=2.11.2",
-    "uvicorn>=0.34.3",
+    "uvicorn>=0.44.0",
     "pdbpp",
 ]
 
