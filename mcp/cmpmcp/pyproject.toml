@@ -13,7 +13,7 @@ dependencies = [
     "uv>=0.8.13",
     "python-keycloak-client>=0.2.3",
     "vgs-cli>=1.30.16",
-    "requests>=2.31.0",
+    "requests>=2.33.1",
 ]
 
 [dependency-groups]
