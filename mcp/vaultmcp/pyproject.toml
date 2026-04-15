@@ -5,12 +5,12 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "fastmcp>=2.7.0",
+    "fastmcp>=3.2.0",
     "python-keycloak-client>=0.2.3",
     "vgs-cli>=1.30.16",
 ]
 
 [dependency-groups]
 dev = [
-    "pytest>=8.4.1",
+    "pytest>=9.0.3",
 ]
